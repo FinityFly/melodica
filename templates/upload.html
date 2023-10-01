@@ -1,0 +1,128 @@
+ <!DOCTYPE html>
+<html>
+<head>
+    <title>Audio File Uploader</title>
+    <script src="https://kit.fontawesome.com/161cfb32c6.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
+        <div class="container">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="#">
+                    File uploader
+                </a>
+                <a class="navbar-item navbar-end" href="#">
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Centered Content -->
+    <section class="section">
+        <div class="container">
+            <div class="tile box has-text-centered">
+                <div class="tile is-ancestor is-vertical">
+                    <h1 class="title">Audio File Uploader</h1>
+                    <form id="upload-form" action="/upload" method="POST" enctype="multipart/form-data">
+                        <img src="../imgs/Group_1.png" alt="" />
+                        <div class="tile is-parent">
+                            <div class="tile is-child is-4"></div>
+                            <div class="tile is-child is-4 file is-boxed is-centered">
+                                <label class="file-label">
+                                    <!-- Add the drag-and-drop functionality -->
+                                    <div class="file-drop-area" id="file-drop-area">
+                                        <input class="file-input" type="file" name="file" id="file" accept=".mp3" required>
+                                        <span class="file-cta">
+                                            <i class="fa-solid fa-upload" style="font-size: 32px"></i>
+                                            <span class="file-label">
+                                                <span id="file-display">Drag and drop an .mp3 audio file here or</span>
+                                                <span class="button is-primary">
+                                                    Choose file
+                                                </span>
+                                            </span>
+                                        </span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="tile is-child field">
+                            <div class="control">
+                                <input class="button is-primary" type="submit" value="Upload" id="upload-button">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // JavaScript code for handling drag-and-drop functionality
+        const fileInput = document.getElementById('file');
+        const fileDisplay = document.getElementById('file-display');
+        const fileDropArea = document.getElementById('file-drop-area');
+
+        
+        const uploadForm = document.getElementById('upload-form');
+        const audioElement = document.getElementById('audio-element');
+
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files.length > 0) {
+                const fileName = fileInput.files[0].name;
+                fileDisplay.textContent = `Selected file: ${fileName}`;
+                // Set the audio source to the uploaded file
+                audioElement.src = `/uploads/${fileName}`;
+            } else {
+                fileDisplay.textContent = 'Drag and drop a .mp3 audio file here or';
+            }
+        });
+
+        // Prevent default behavior for drag-and-drop events
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            fileDropArea.addEventListener(eventName, preventDefaults, false);
+            document.body.addEventListener(eventName, preventDefaults, false);
+        });
+
+        // Highlight the drop area when a file is dragged over it
+        ['dragenter', 'dragover'].forEach(eventName => {
+            fileDropArea.addEventListener(eventName, highlight, false);
+        });
+
+        // Remove the highlight when a file is dragged out of the drop area
+        ['dragleave', 'drop'].forEach(eventName => {
+            fileDropArea.addEventListener(eventName, unhighlight, false);
+        });
+
+        // Handle dropped files
+        fileDropArea.addEventListener('drop', handleDrop, false);
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        function highlight() {
+            fileDropArea.classList.add('highlight');
+        }
+
+        function unhighlight() {
+            fileDropArea.classList.remove('highlight');
+        }
+
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+
+            if (files.length > 0) {
+                const fileName = files[0].name;
+                fileDisplay.textContent = `Selected file: ${fileName}`;
+                fileInput.files = files; // Update the file input with the dropped file
+            } else {
+                fileDisplay.textContent = 'Drag and drop a .mp3 audio file here or';
+            }
+        }
+    </script>
+</body>
+</html>
