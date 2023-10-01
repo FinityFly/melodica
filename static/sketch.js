@@ -61,6 +61,24 @@ function setup() {
   chordSlider.position(displayWidth*0.09,displayHeight*0.650)
   accum = 0;
   start = null;
+
+  textFont(customFont);
+  let vocal_wav_link = createA(links['vocal_output'], 'Vocal Output');
+  vocal_wav_link.position(displayWidth*0.02,displayHeight*0.83);
+  let bass_wav_link = createA(links['bass_output'], 'Bass Output');
+  bass_wav_link.position(displayWidth*0.17,displayHeight*0.83);
+  let drum_wav_link = createA(links['drum_output'], 'Drum Output');
+  drum_wav_link.position(displayWidth*0.32,displayHeight*0.83);
+  let other_wav_link = createA(links['other_output'], 'Other Output');
+  other_wav_link.position(displayWidth*0.47,displayHeight*0.83);
+  vocal_wav_link.style('font-size', '26px');
+  vocal_wav_link.style('font-family', customFont);
+  bass_wav_link.style('font-size', '26px');
+  bass_wav_link.style('font-family', customFont);
+  drum_wav_link.style('font-size', '26px');
+  drum_wav_link.style('font-family', customFont);
+  other_wav_link.style('font-size', '26px');
+  other_wav_link.style('font-family', customFont);
 }
 
 function draw(){
