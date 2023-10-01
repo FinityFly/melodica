@@ -8,6 +8,11 @@ function preload(){
   chords = loadJSON("static/assets/output_json/chord_output.json")
   links = loadJSON("static/assets/output_json/links.json")
 
+  vocalMidi = loadStrings("static/assets/output_txt/vocal_output.txt")
+  bassMidi = loadStrings("static/assets/output_txt/bass_output.txt")
+  drumMidi = loadStrings("static/assets/output_txt/drum_output.txt")
+  otherMidi = loadStrings("static/assets/output_txt/other_output.txt")
+
   vocalImage = loadImage("static/assets/images/microphone.png")
   bassImage = loadImage("static/assets/images/guitar.png")
   drumImage = loadImage("static/assets/images/drum-set.png")
@@ -56,40 +61,67 @@ function setup() {
   chordSlider.position(displayWidth*0.09,displayHeight*0.650)
   accum = 0;
   start = null;
-  firstRun = 1;
-
-  textFont(customFont);
-  let vocal_wav_link = createA(links['vocal_output'], 'Vocal Output');
-  vocal_wav_link.position(displayWidth*0.02,displayHeight*0.83);
-  let bass_wav_link = createA(links['bass_output'], 'Bass Output');
-  bass_wav_link.position(displayWidth*0.17,displayHeight*0.83);
-  let drum_wav_link = createA(links['drum_output'], 'Drum Output');
-  drum_wav_link.position(displayWidth*0.32,displayHeight*0.83);
-  let other_wav_link = createA(links['other_output'], 'Other Output');
-  other_wav_link.position(displayWidth*0.47,displayHeight*0.83);
-  vocal_wav_link.style('font-size', '26px');
-  vocal_wav_link.style('font-family', customFont);
-  bass_wav_link.style('font-size', '26px');
-  bass_wav_link.style('font-family', customFont);
-  drum_wav_link.style('font-size', '26px');
-  drum_wav_link.style('font-family', customFont);
-  other_wav_link.style('font-size', '26px');
-  other_wav_link.style('font-family', customFont);
 }
 
 function draw(){
   imageMode(CENTER)
   elapsedTime = accum + (start != null ? millis() - start : 0);
-  //console.log((mouseX >= displayWidth*0.11-20 && mouseX <= displayWidth*0.11+20 && mouseY >= displayHeight*0.8-20 && mouseY <= displayHeight*0.8+20))
   textSize(32)
   textFont(customFont)
   background(255);
   fill(93,210,179,500)
+    strokeWeight(4)
+
+    rawr = 0
+    beginShape();
+    for (i = 0; i < vocalMidi.length; i++){
+      noFill()
+      vertex(displayWidth*0.125 + (rawr*1000 - (elapsedTime))*0.25,map(int(vocalMidi[i].split(" ")[0]),30,80,displayHeight*0.00, displayHeight*0.13))
+      rawr += float(vocalMidi[i].split(" ")[1])
+    }
+    endShape();
+
+    rawr = 0
+    beginShape();
+    for (i = 0; i < bassMidi.length; i++){
+      noFill()
+      vertex(displayWidth*0.125 + (rawr*1000 - (elapsedTime))*0.25,map(int(bassMidi[i].split(" ")[0]),30,80,displayHeight*0.15, displayHeight*0.28))
+      rawr += float(bassMidi[i].split(" ")[1])
+    }
+    endShape();
+
+    rawr = 0
+    beginShape();
+    for (i = 0; i < drumMidi.length; i++){
+      noFill()
+      vertex(displayWidth*0.125 + (rawr*1000 - (elapsedTime))*0.25,map(int(drumMidi[i].split(" ")[0]),30,80,displayHeight*0.30, displayHeight*0.43))
+      rawr += float(drumMidi[i].split(" ")[1])
+    }
+    endShape();
+
+    rawr = 0
+    beginShape();
+    for (i = 0; i < otherMidi.length; i++){
+      noFill()
+      vertex(displayWidth*0.125 + (rawr*1000 - (elapsedTime))*0.25,map(int(otherMidi[i].split(" ")[0]),30,80,displayHeight*0.45, displayHeight*0.58))
+      rawr += float(otherMidi[i].split(" ")[1])
+    }
+    endShape();
+  
   drawSpectrum(vocalfft,displayHeight*0.85)
   drawSpectrum(bassfft,displayHeight*0.70)
   drawSpectrum(drumfft,displayHeight*0.55)
   drawSpectrum(otherfft,displayHeight*0.40)
+  
+  if (elapsedTime>=vocal.duration()*1000){
+    start = null
+    accum = 0
+    vocal.stop()
+    drum.stop()
+    other.stop()
+    bass.stop()
 
+  }
   ar = chordSlider.value()*0.01
   for (var key in chords){
     noStroke()
@@ -101,16 +133,16 @@ function draw(){
   }
 
   noStroke()
-  fill(225, 85, 84, 150)
+  fill(225*1.5, 85*1.5, 84*1.5)
   rect(0,0,displayWidth*0.125,displayHeight*0.15)
   image(vocalImage,displayWidth*0.0625,(displayHeight*0.07),displayWidth*0.05,displayWidth*0.05)
-  fill(225, 188, 41, 150)
+  fill(225*1.5, 188*1.5, 41*1.5)
   rect(0,displayHeight*0.15,displayWidth*0.125,displayHeight*0.15)
   image(bassImage,displayWidth*0.0625,(displayHeight*0.22),displayWidth*0.05,displayWidth*0.05)
-  fill(59, 178, 115, 150)
+  fill(59*1.5, 178*1.5, 115*1.5)
   rect(0,displayHeight*0.30,displayWidth*0.125,displayHeight*0.15)
   image(drumImage,displayWidth*0.0625,(displayHeight*0.37),displayWidth*0.05,displayWidth*0.05)
-  fill(77, 157, 224, 150)
+  fill(77*1.5, 157*1.5, 224*1.5)
   rect(0,displayHeight*0.45,displayWidth*0.125,displayHeight*0.15)
   image(otherImage,displayWidth*0.0625,(displayHeight*0.52),displayWidth*0.05,displayWidth*0.05)
   fill(119*1.5, 104*1.5, 174*1.5)
@@ -151,20 +183,11 @@ function draw(){
   bass.setVolume(bassSlider.value()*0.01)
   drum.setVolume(drumSlider.value()*0.01)
   other.setVolume(otherSlider.value()*0.01)
-
-  if (elapsedTime>=vocal.duration()*1000){
-    start = null
-    accum = 0
-    vocal.stop()
-    drum.stop()
-    other.stop()
-    bass.stop()
-  }
 }
 
 var drawSpectrum = function(fft, yOffset) {
   let spectrum = fft.analyze();
-  stroke(93,210,179,50);
+  stroke(77, 157, 224,100);
   strokeWeight(4)
   beginShape();
   vertex(displayWidth*0.125,displayHeight-yOffset)
