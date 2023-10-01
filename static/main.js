@@ -11,8 +11,9 @@ let controls;
 let objToRender = 'mic';
 
 const loader = new GLTFLoader();
-let mouseX = 0;
-let mouseY = 0;
+//Keep track of the mouse position, so we can make the eye move
+let mouseX = window.innerWidth / 2;
+let mouseY = window.innerHeight / 2;
 
 loader.load(
   `static/models/music_band_low_poly/scene.gltf`,
@@ -33,7 +34,6 @@ const renderer = new THREE.WebGLRenderer({ alpha: true });
 renderer.setSize(window.innerWidth / 1.5, window.innerHeight / 1.5);
 document.getElementById("container3D").appendChild(renderer.domElement);
 
-let cameraDistance = objToRender === "dino" ? 25 : 500;
 const topLight = new THREE.DirectionalLight(0xffffff, 1);
 topLight.position.set(500, 500, 500);
 topLight.castShadow = true;
@@ -50,25 +50,6 @@ let cameraRotation = 0.05;
 let speed = 0.001;
 
 
-let isArrowUpPressed = false;
-let isArrowDownPressed = false;
-
-// Add event listeners for keydown and keyup
-document.addEventListener('keydown', (event) => {
-  if (event.key === 'ArrowUp') {
-    isArrowUpPressed = true;
-  } else if (event.key === 'ArrowDown') {
-    isArrowDownPressed = true;
-  }
-});
-
-document.addEventListener('keyup', (event) => {
-  if (event.key === 'ArrowUp') {
-    isArrowUpPressed = false;
-  } else if (event.key === 'ArrowDown') {
-    isArrowDownPressed = false;
-  }
-});
 
 
 function animate() {
@@ -78,13 +59,6 @@ function animate() {
   // Update the camera's position for zooming with arrow keys
   const zoomSpeed = 10; // Adjust the zoom speed as needed
 
-  if (isArrowUpPressed) {
-    camera.position.z -= zoomSpeed;
-  }
-
-  if (isArrowDownPressed) {
-    camera.position.z += zoomSpeed;
-  }
 
   // Ensure camera position stays within reasonable bounds
   camera.position.z = Math.max(camera.position.z, 1);
@@ -93,35 +67,27 @@ function animate() {
 
   if (objToRender === 'mic') {
     const radius = 10;
-    speed += 0.00005;
+    if (zoomSpeed < 1000){
+        speed *= 1.003;
+    }
+    
+
+    
     const cameraX = radius * Math.cos(cameraRotation);
     const cameraZ = radius * Math.sin(cameraRotation);
 
-    camera.position.set(cameraX, 10-speed*20, cameraZ);
+    camera.position.set(cameraX, 8, cameraZ);
     camera.lookAt(0, 0, 0);
 
     cameraRotation += speed;
-  }
-
-  renderer.render(scene, camera);
-
-  if (objToRender === 'dino' && controls) {
-    controls.update();
-  }
-
-  if (object && objToRender === 'eye') {
     object.rotation.y = -3 + mouseX / window.innerWidth * 3;
     object.rotation.x = -1.2 + mouseY * 2.5 / window.innerHeight;
   }
 
+
   renderer.render(scene, camera);
 }
 
-window.addEventListener("resize", function () {
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
-});
 
 document.onmousemove = (e) => {
   mouseX = e.clientX;
