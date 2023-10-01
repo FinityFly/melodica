@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, send_from_directory
 import instrumental_to_midi as itm
 import os
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static')
 
 # Configure the uploads folder
 UPLOAD_FOLDER = 'uploads'
