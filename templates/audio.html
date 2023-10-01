@@ -5,9 +5,9 @@
     <title>Very real loading screen</title>
     <script src="https://kit.fontawesome.com/161cfb32c6.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
-    <style>
+    <style> 
         html {
-            background-color: rgb(0,209, 178); /* Replace 'static/icon3.png' with your image path */
+            background-color: rgb(0, 209, 178); /* Replace 'static/icon3.png' with your image path */
             background-size: cover; /* Cover the entire body */
             background-repeat: no-repeat; /* Do not repeat the image */
         }
@@ -30,21 +30,19 @@
     </style>
 </head>
 <body>
-
-
     <img src="static/ICON2.png" width="150px" height="90px">
-
-   
-    <!-- <audio controls>
-        <source src="{{ audio_src }}" type="audio/wav">
-        Your browser does not support the audio element.
-    </audio> -->
     <main>
         <div id="container3D"></div>
         <script type="module" src="{{ url_for('static', filename='main.js') }}"></script>
     </main>
     <h1>Loading...</h1>
-
     <h4>Please wait while we process your file</h4>
+
+    <script>
+        // Send an HTTP request to Flask when the HTML finishes loading
+        document.addEventListener('DOMContentLoaded', function () {
+            location.replace("/perform_additional_processing")
+        });
+    </script>
 </body>
 </html>

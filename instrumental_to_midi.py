@@ -5,6 +5,7 @@ import json
 import time
 from dotenv import load_dotenv
 from basic_pitch.inference import predict
+from mido import MidiFile
 
 class InstrumentalToMidi:
     load_dotenv()
@@ -74,13 +75,29 @@ class InstrumentalToMidi:
     
     def parse_info(self, results):
         for output_name, output_file in results.items():
-            filename = f'{output_name}_{time.strftime("%Y%m%d-%H%M%S")}'
-            wavfilepath = f'assets/output_wav/{filename}'
-            midifilepath = f'assets/output_midi/{filename}'
+            filename = output_name
+            # filename = f'{output_name}_{time.strftime("%Y%m%d-%H%M%S")}'
+            wavfilepath = f'static/assets/output_wav/{filename}'
+            midifilepath = f'static/assets/output_midi/{filename}'
             if output_name in ['bass_output', 'drum_output', 'other_output', 'vocal_output']:
                 self._download_audio(output_file, wavfilepath + '.wav')
                 model_output, midi_output, note_events = predict(wavfilepath + '.wav')
                 midi_output.write(midifilepath + '.mid')
+                f = open(f"static/assets/output_txt/{filename}.txt", "w")
+                mid = MidiFile(midifilepath + '.mid', clip=True)
+                max,min=0,128
+                bpm = 60000000/mid.tracks[0][0].tempo
+                tbs = mid.ticks_per_beat
+
+                for msg in mid.tracks[1]:
+                    if(msg.type) == "note_on" and msg.time>0:
+                        if msg.note>max:
+                            max = msg.note
+                        if msg.note<min:
+                            min = msg.note
+                        f.write(str(msg.note) + " " + str(msg.time/tbs*60/bpm) + "\n")
+                f.write(str(min) + " " +  str(max))
+                f.close()
                 print(f"Converted {filename} to midi successfully")
             elif output_name == 'bpm_output':
                 pass
@@ -91,6 +108,6 @@ class InstrumentalToMidi:
             elif output_name == 'chord_output':
                 response = requests.get(output_file)
                 json_data = response.json()
-                with open(f"assets/output_json/{filename}.json", "w") as f:
+                with open(f"static/assets/output_json/{filename}.json", "w") as f:
                     json.dump(json_data, f)
                     f.close()
