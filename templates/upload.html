@@ -4,16 +4,30 @@
     <title>Audio File Uploader</title>
     <script src="https://kit.fontawesome.com/161cfb32c6.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+
+    <style>
+        /* Style for the larger navbar */
+        .navbar.is-primary {
+            font-size: 30px; /* Adjust the font size as needed */
+        }
+
+        /* Style for the larger navbar logo */
+        .navbar-item.logo {
+            font-size: 40px; /* Adjust the font size as needed */
+        }
+    </style>
 </head>
 <body>
+
     <!-- Navbar -->
     <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
         <div class="container">
             <div class="navbar-brand">
-                <a class="navbar-item" href="#">
-                    File uploader
+                <a class="navbar-item logo" href="#">
+                    Melodica
                 </a>
                 <a class="navbar-item navbar-end" href="#">
+                    <img src="static/icon3.png" class="icon2">
                 </a>
             </div>
         </div>
@@ -56,7 +70,11 @@
                 </div>
             </div>
         </div>
+        
     </section>
+  
+
+    <!-- Include Three.js script separately -->
 
     <script>
         // JavaScript code for handling drag-and-drop functionality
@@ -124,5 +142,13 @@
             }
         }
     </script>
+    <main>
+        <div id="container3D"></div>
+            <script type="module" src="{{ url_for('static', filename='main.js') }}"></script>
+    
+        </div>
+      </main>
 </body>
+
 </html>
+
