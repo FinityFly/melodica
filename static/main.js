@@ -10,10 +10,6 @@ const scene = new THREE.Scene();
 //create a new camera with positions and angles
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
-//Keep track of the mouse position, so we can make the eye move
-let mouseX = window.innerWidth / 2;
-let mouseY = window.innerHeight / 2;
-
 //Keep the 3D object on a global variable so we can access it later
 let object;
 //OrbitControls allow the camera to move around the scene
@@ -31,7 +27,7 @@ loader.load(
   function (gltf) {
     //If the file is loaded, add it to the scene
     object = gltf.scene;
-    object.scale.set(5,5,5);
+    object.scale.set(5.5,5.5,5.5);
     scene.add(object);
 
     
@@ -48,7 +44,7 @@ loader.load(
 
 //Instantiate a new renderer and set its size
 const renderer = new THREE.WebGLRenderer({ alpha: true }); //Alpha: true allows for the transparent background
-renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setSize(window.innerWidth /1.5 , window.innerHeight / 1.5);
 
 //Add the renderer to the DOM
 document.getElementById("container3D").appendChild(renderer.domElement);
@@ -71,7 +67,8 @@ if (objToRender === "dino") {
 }
 
 //Render the scene
-let cameraRotation = 0;
+let cameraRotation = 0.05;
+let speed = 0.001;
 
 function animate() {
   
@@ -91,14 +88,13 @@ function animate() {
   // Update the camera's position for orbiting the object
   if (objToRender === 'mic') {
     const radius = 10; // Adjust the radius as needed
-    const speed = 0.01; // Adjust the rotation speed as needed
-
+    speed +=0.00005;
     // Calculate new camera position
     const cameraX = radius * Math.cos(cameraRotation);
     const cameraZ = radius * Math.sin(cameraRotation);
 
     // Set the camera's position to orbit around the microphone
-    camera.position.set(cameraX, 5, cameraZ); // Adjust the height (3) as needed
+    camera.position.set(cameraX, 8, cameraZ); // Adjust the height (3) as needed
     camera.lookAt(0, 0, 0); // Look at the microphone's position (0, 0, 0)
 
     // Increment the camera's rotation angle

@@ -2,13 +2,49 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Uploaded Audio</title>
+    <title>Very real loading screen</title>
+    <script src="https://kit.fontawesome.com/161cfb32c6.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <style>
+        html {
+            background-color: rgb(0,209, 178); /* Replace 'static/icon3.png' with your image path */
+            background-size: cover; /* Cover the entire body */
+            background-repeat: no-repeat; /* Do not repeat the image */
+        }
+
+        /* Center the content vertically and horizontally */
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Style the text */
+        h1, h4 {
+            color: rgb(255, 255, 255); /* Text color */
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-    <h1>Uploaded Audio</h1>
-    <audio controls>
+
+
+    <img src="static/ICON2.png" width="150px" height="90px">
+
+   
+    <!-- <audio controls>
         <source src="{{ audio_src }}" type="audio/wav">
         Your browser does not support the audio element.
-    </audio>
+    </audio> -->
+    <main>
+        <div id="container3D"></div>
+        <script type="module" src="{{ url_for('static', filename='main.js') }}"></script>
+    </main>
+    <h1>Loading...</h1>
+
+    <h4>Please wait while we process your file</h4>
 </body>
 </html>
