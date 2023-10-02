@@ -4,3 +4,4 @@ static/assets/output_midi/
 static/assets/output_txt/
 static/assets/output_wav/
 __pycache__/
+uploads/
