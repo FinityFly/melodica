@@ -1,5 +1,5 @@
 .env
-static/assets/output_json
-static/assets/output_midi
-static/assets/output_txt
-static/assets/output_wav
+static/assets/output_json/
+static/assets/output_midi/
+static/assets/output_txt/
+static/assets/output_wav/
