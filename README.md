@@ -48,7 +48,7 @@ touch .env
 ```
 2. Open the **.env** file and add your Moises API key, assigned to "**MOISES_KEY**":
 ```js
-MOISES_API_KEY=your-api-key-here
+MOISES_KEY=your-api-key-here
 ```
 
 ## Run
