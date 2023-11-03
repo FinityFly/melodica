@@ -1,6 +1,8 @@
 # Melodica
 >*Presenting a musician's Swiss Army knife...*
 
+![melodica_thumbnail](https://github.com/FinityFly/melodica/assets/56236512/b87b798f-724e-4439-b776-b141aaaae50b)
+
 As a group of aspiring musicians and a newly formed band, we were in search of a fast and useful tool to assist us in learning and analyzing songs for our practices and performances. Our vision for this project was to create a tool that could visualize and isolate different instruments and elements within songs, allowing band members to play along and practice without losing the presence of other instruments or having to play over existing recordings of their own parts. The opportunity to develop a solution to our problem motivated us to create something practical and valuable that we could both use and take pride in. Therefore, the primary goal of this project is to aid us, as well as other aspiring musicians, in enhancing their practice sessions.
 
 Best Hack for All Arts winner of *McGill Artificial Intelligence Society Hacks 2023*
