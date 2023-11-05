@@ -75,9 +75,15 @@ Melodica utilizes two primary artificial intelligence technologies to analyze th
 
 # Contributors
 - **Vu Cao**: @mizly
+-   "I mainly worked on the frontend (audio visualizer) and made the BANGER trailer video"
 - **Joel Cherian**: @SyphxN
+-   "I helped as a full stack debugger, and did the audio playback and chord progression module, and did the Project Management."
 - **Daniel Lu**: @FinityFly
+-   "I worked on the backend, mainly focusing on the song to instrument midi conversion. I also worked on interweaving the different components of the project together into one final product."
 - **Justin Xue**: @shoexue
+-   "I mainly worked on the front-end (three.js, flask) and helped connect the back end. "
+
+
 
 # License
 This project is licensed under the MIT License.
